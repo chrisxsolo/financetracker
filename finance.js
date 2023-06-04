@@ -1,63 +1,54 @@
-const readline = require('readline');
+
+
+
 
 // Arrays to store expenses and income
 let expenses = [];
 let income = [];
 
-// Create readline interface
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
 // Function to track expenses
 function trackExpenses() {
   let totalSpent = 0;
 
-  rl.question("Enter expense amount (or 'done' to finish): ", (expense) => {
+  while (true) {
+    const expense = prompt("Enter expense amount (or 'done' to finish): ");
     if (expense.toLowerCase() === "done") {
-      rl.close();
       trackIncome();
-      return;
+      break;
     }
 
-    expense = parseFloat(expense);
-    if (isNaN(expense) || expense <= 0) {
+    const expenseAmount = parseFloat(expense);
+    if (isNaN(expenseAmount) || expenseAmount <= 0) {
       console.log("Invalid expense amount. Please enter a valid number.");
-      trackExpenses();
-      return;
+      continue;
     }
 
-    expenses.push(expense);
-    totalSpent += expense;
-    if (totalSpent < 3000) {
-      trackExpenses();
-    } else {
-      rl.close();
+    expenses.push(expenseAmount);
+    totalSpent += expenseAmount;
+    if (totalSpent >= 3000) {
       trackIncome();
+      break;
     }
-  });
+  }
 }
 
 // Function to track income
 function trackIncome() {
-  rl.question("Enter income earned (or 'done' to finish): ", (incomeEarned) => {
+  while (true) {
+    const incomeEarned = prompt("Enter income earned (or 'done' to finish): ");
     if (incomeEarned.toLowerCase() === "done") {
-      rl.close();
       displayFinances();
-      return;
+      break;
     }
 
-    incomeEarned = parseFloat(incomeEarned);
-    if (isNaN(incomeEarned) || incomeEarned <= 0) {
+    const incomeAmount = parseFloat(incomeEarned);
+    if (isNaN(incomeAmount) || incomeAmount <= 0) {
       console.log("Invalid income earned. Please enter a valid number.");
-      trackIncome();
-      return;
+      continue;
     }
 
-    income.push(incomeEarned);
-    trackIncome();
-  });
+    income.push(incomeAmount);
+  }
 }
 
 // Display the tracked expenses and income, along with total money spent and total money earned
