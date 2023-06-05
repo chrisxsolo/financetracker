@@ -73,26 +73,36 @@ def track_income():
         except ValueError:
             print("Invalid income earned. Please enter a valid number.")
 
-# Calculate remaining money after subtracting total spent from $1700
+# Calculate remaining money after subtracting total spent from $1700 and adding income
 def calculate_remaining_money(total_spent):
-    remaining_money = 1700 - total_spent
+    total_income = sum(income)
+    remaining_money = 1700 - total_spent + total_income
 
-    display_finances(remaining_money)
+    display_finances(total_income, total_spent, remaining_money)
 
-# Display the tracked expenses and income, along with the remaining money
-def display_finances(remaining_money):
-    print("Expenses:")
-    for expense in expenses:
-        print(f"Amount: ${expense:.2f}")
-
-    print("\nIncome:")
-    for income_earned in income:
-        print(f"Amount: ${income_earned:.2f}")
-
-    print(f"\nRemaining Money: ${remaining_money:.2f}")
+# Display the total income, total expenses, and remaining money
+def display_finances(total_income, total_expenses, remaining_money):
+    print(f"\nTotal Freelance Income: ${total_income:.2f}")
+    print(f"Total Expenses: ${total_expenses:.2f}")
+    print(f"Remaining Money: ${remaining_money:.2f}")
 
 # Load data from files
 load_data()
 
-# Track expenses
-track_expenses()
+# Menu
+while True:
+    print("\n1. Track Expenses")
+    print("2. Show Available Money to Spend")
+    print("3. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        track_expenses()
+    elif choice == "2":
+        calculate_remaining_money(sum(expenses))
+    elif choice == "3":
+        break
+    else:
+        print("Invalid choice. Please try again.")
+
